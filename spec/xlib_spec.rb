@@ -1,7 +1,11 @@
 # -*- coding:utf-8; mode:ruby; -*-
 
 require 'active_window_x'
-require 'dl'
+if RUBY_VERSION < '1.9'
+  require 'dl'
+else
+  require 'dl/import'
+end
 
 include ActiveWindowX
 
@@ -169,7 +173,11 @@ describe Xlib do
         r.shift.should == 32
         l = r.shift
         r.shift.should
-        r.shift.length == DL::sizeof('l') * l
+        if RUBY_VERSION < '1.9'
+          r.shift.length == DL::sizeof('l') * l
+        else
+          r.shift.length == DL::Importer.sizeof('long') * l
+        end
       end
     end
   end

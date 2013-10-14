@@ -349,9 +349,9 @@ VALUE xlib_x_set_wm_protocols(VALUE self, VALUE display_obj, VALUE w_obj,
 
   GetDisplay(display_obj, display);
   w = (Window) NUM2ULONG(w_obj);
-  count = RARRAY(atom_ary_obj)->len;
+  count = RARRAY_LEN(atom_ary_obj);
   atom_ary = ALLOC_N(Atom, len);
-  for (i=0; i<count; i++) atom_ary[i] = RARRAY(atom_ary_obj)->ptr[i];
+  for (i=0; i<count; i++) atom_ary[i] = RARRAY_PTR(atom_ary_obj)[i];
 
   s = XSetWMProtocols(display, w, atom_ary, count);
   raise_if_xerror_occurred();
